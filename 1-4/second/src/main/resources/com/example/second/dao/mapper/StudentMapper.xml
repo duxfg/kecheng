@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.second.dao.StudentDao">
+    <resultMap id="BaseResultMap" type="com.example.second.entity.Student">
+        <id column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="height" property="height" jdbcType="INTEGER"/>
+        <result column="weight" property="weight" jdbcType="INTEGER"/>
+        <result column="phone" property="phone" jdbcType="INTEGER"/>
+        <result column="job_id" property="job_id" jdbcType="INTEGER"/>
+        <result column="id_card" property="id_card" jdbcType="INTEGER"/>
+        <result column="dormitory" property="dormitory" jdbcType="INTEGER"/>
+        <result column="salary" property="salary" jdbcType="INTEGER"/>
+        <result column="hobby" property="hobby" jdbcType="VARCHAR"/>
+        <result column="nation" property="nation" jdbcType="VARCHAR"/>
+        <result column="graduate_institutions" property="graduate_institutions" jdbcType="VARCHAR"/>
+        <result column="profession" property="profession" jdbcType="VARCHAR"/>
+        <result column="political_status" property="political_status" jdbcType="VARCHAR"/>
+        <result column="post" property="post" jdbcType="VARCHAR"/>
+        <result column="marital_status" property="marital_status" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="health_condition" property="health_condition" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        uid, name, age, sex,height,weight,phone,jo_bid,id_card,dormitory,salary,hobby,nation,graduate_institutions,
+        profession,political_status,post,marital_status,addrese,health_condition
+    </sql>
+
+    <select id="findAllStudents" resultType="com.example.second.entity.Student">
+        select * from student
+    </select>
+
+    <select id="findStudentByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from student where name = #{name,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteStudentsByIds">
+        delete from student where uid in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getCountStudents" resultType="java.lang.Integer">
+        select count(uid) as count from student
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from student
+        where uid = #{uid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteStudentById" parameterType="java.lang.Long">
+        delete from student
+        where uid = #{uid,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.second.entity.Student">
+        insert into student (uid, name, age,
+        sex,height,weight,phone,job_id,id_card,dormitory,salary,hobby,nation,graduate_institutions,
+        profession,political_status,post,marital_status,address,health_condition)
+        values (#{uid,jdbcType=BIGINT},
+                #{name,jdbcType=VARCHAR},#{age,jdbcType=INTEGER},
+                #{sex,jdbcType=VARCHAR},#{height,jdbcType=INTEGER},
+                #{weight,jdbcType=INTEGER},#{phone,jdbcType=INTEGER},
+                #{job_id,jdbcType=INTEGER},#{id_card,jdbcType=INTEGER},
+                #{dormitory,jdbcType=INTEGER},#{salary,jdbcType=INTEGER},
+                #{hobby,jdbcType=VARCHAR},#{nation,jdbcType=VARCHAR},
+                #{graduate_institutions,jdbcType=VARCHAR},#{profession,jdbcType=VARCHAR},
+                #{political_status,jdbcType=VARCHAR},#{post,jdbcType=VARCHAR},
+                #{marital_status,jdbcType=VARCHAR},#{address,jdbcType=VARCHAR},
+                #{health,jdbcType=VARCHAR}
+                )
+    </insert>
+    <insert id="addStudent" parameterType="com.example.second.entity.Student">
+        insert into student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="height != null">
+                height,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="job_id != null">
+                job_id,
+            </if>
+            <if test="id_card != null">
+                id_card,
+            </if>
+            <if test="dormitory != null">
+                dormitory,
+            </if>
+            <if test="salary != null">
+                salary,
+            </if>
+            <if test="hobby != null">
+                hobby,
+            </if>
+            <if test="nation != null">
+                nation,
+            </if>
+            <if test="graduate_institutions != null">
+                graduate_institutions,
+            </if>
+            <if test="profession != null">
+                profession,
+            </if>
+            <if test="political_status != null">
+                political_status,
+            </if>
+            <if test="post != null">
+                post,
+            </if>
+            <if test="marital_status != null">
+                marital_status,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="health_condition != null">
+                health_condition,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                #{uid,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age,jdbcType=INTEGER},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="height != null">
+                #{height,jdbcType=INTEGER},
+            </if>
+            <if test="weight != null">
+                #{weight,jdbcType=INTEGER},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=INTEGER},
+            </if>
+            <if test="job_id != null">
+                #{job_id,jdbcType=INTEGER},
+            </if>
+            <if test="id_card != null">
+                #{id_card,jdbcType=INTEGER},
+            </if>
+            <if test="dormitory != null">
+                #{dormitory,jdbcType=INTEGER},
+            </if>
+            <if test="salary != null">
+                #{salary,jdbcType=INTEGER},
+            </if>
+            <if test="hobby != null">
+                #{hobby,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="graduate_institutions != null">
+                #{graduate_institutions,jdbcType=VARCHAR},
+            </if>
+            <if test="profession != null">
+                #{profession,jdbcType=VARCHAR},
+            </if>
+            <if test="political_status != null">
+                #{political_status,jdbcType=VARCHAR},
+            </if>
+            <if test="post != null">
+                #{post,jdbcType=VARCHAR},
+            </if>
+            <if test="marital_status != null">
+                #{marital_status,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="health_condition != null">
+                #{health_condition,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateStudent" parameterType="com.example.second.entity.Student">
+        update student
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="height != null">
+                height = #{height,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                weight = #{weight,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="job_id != null">
+                 job_id= #{job_id,jdbcType=VARCHAR},
+            </if>
+            <if test="id_card != null">
+                id_card = #{id_card,jdbcType=VARCHAR},
+            </if>
+            <if test="dormitory != null">
+                dormitory = #{dormitory,jdbcType=VARCHAR},
+            </if>
+            <if test="salary != null">
+                salary = #{salary,jdbcType=VARCHAR},
+            </if>
+            <if test="hobby != null">
+                hobby = #{hobby,jdbcType=INTEGER},
+            </if>
+            <if test="nation != null">
+                nation = #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="graduate_institutions != null">
+                graduate_institutions = #{graduate_institutions,jdbcType=VARCHAR},
+            </if>
+            <if test="profession != null">
+                profession = #{profession,jdbcType=VARCHAR},
+            </if>
+            <if test="political_status != null">
+                political_status = #{political_status,jdbcType=VARCHAR},
+            </if>
+            <if test="post != null">
+                post= #{post,jdbcType=VARCHAR},
+            </if>
+            <if test="marital_status != null">
+                marital_status = #{marital_status,jdbcType=VARCHAR},
+            </if>
+            <if test="health_condition != null">
+                health_condition = #{health_condition,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where uid = #{uid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.second.entity.Student">
+        update student
+        set name = #{name,jdbcType=VARCHAR},
+        age = #{age,jdbcType=INTEGER},
+        sex = #{sex,jdbcType=VARCHAR},
+        height = #{height,jdbcType=INTEGER},
+        weight = #{weight,jdbcType=INTEGER},
+        phone = #{phone,jdbcType=INTEGER},
+        job_id = #{job_id,jdbcType=INTEGER},
+        id_card = #{id_card,jdbcType=INTEGER},
+        dormitory = #{dormitory,jdbcType=INTEGER},
+        salary = #{salary,jdbcType=INTEGER},
+        hobby = #{hobby,jdbcType=INTEGER},
+        nation = #{nation,jdbcType=INTEGER},
+        graduate_institutions = #{graduate_institutions,jdbcType=INTEGER},
+        profession = #{profession,jdbcType=INTEGER},
+        political_status = #{political_status,jdbcType=INTEGER},
+        post = #{post,jdbcType=INTEGER},
+        marital_status = #{marital_status,jdbcType=INTEGER},
+        address = #{address,jdbcType=INTEGER},
+        health_condition = #{health_condition,jdbcType=INTEGER}
+        where uid = #{uid,jdbcType=BIGINT}
+    </update>
+</mapper>
